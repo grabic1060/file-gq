@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 from django.http import HttpResponse
 import random
 import json
@@ -20,8 +21,13 @@ def send(request):
     if request.method == "POST":
         code = genCode()
         file = request.FILES["file"]
+        temp = request.POST['temporary']
+        if temp == "on":
+            temp = bool(True)
+        else:
+            temp = bool(False)
 
-        upload = models.Upload(code=code, )
+        upload = models.Upload(code=code,temporary=temp)
         upload.save()  # Upload 모델
 
         fileupload = models.FileUpload(upload_id=upload, file=file)
@@ -46,7 +52,13 @@ def receive(request):
             file = models.FileUpload.objects.filter(upload_id=upload).first()
             if file is None:
                 return render(request, 'fileapp/receive.html', {'error': ''})
-    
+
+            if file.download_count >= 1 and upload.temporary is True:
+                messages.error(request, "다운로드 횟수를 초과하였습니다.")
+                return render(request, 'fileapp/receive.html', {'error': ''})            
+
+            file.download_count += 1
+            file.save()
             # response = get_file_response(upload)
             # if response is None:
             #     return render(request, 'fileapp/receive.html', {'error': ''})
@@ -92,63 +104,3 @@ def genCode():
     while models.Upload.objects.filter(code=code).exists():
         code = (code + 1) % 1000000
     return code
-
-
-'''
-# features for life4cuts
-
-@csrf_exempt
-def api(request):
-    if request.method == "POST":
-          code = genCode()
-          file = request.FILES["file"]
-  
-          upload = models.Upload(code=code, )
-          upload.save()  # Upload 모델
-  
-          fileupload = models.FileUpload(upload_id=upload, file=file)
-          fileupload.save()
-          
-          return HttpResponse(json.dumps({
-              'status': 'success',
-              'code': code
-          }))
-
-    return redirect('/')
-
-
-@csrf_exempt
-def pre_code(request):
-    if request.method == "POST":
-        code = genCode()
-        upload = models.Upload(code=code)
-        upload.save()
-
-        return HttpResponse(json.dumps({
-            'status': 'success',
-            'code': code
-        }))
-    return redirect('/')
-
-
-@csrf_exempt
-def post_file(request):
-    if request.method == "POST":
-        code = request.POST['code']
-        file = request.FILES["file"]
-        upload = models.Upload.objects.filter(code=int(code)).first()
-        if upload is None:
-            return HttpResponse(json.dumps({
-                'status': 'error',
-                'message': 'Invalid code'
-            }))
-          
-        fileupload = models.FileUpload(upload_id=upload, file=file)
-        fileupload.save()
-        
-        return HttpResponse(json.dumps({
-            'status': 'success'
-        }))
-    return redirect('/')
-
-'''

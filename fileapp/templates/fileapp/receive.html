@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 
+{% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message.message }}");
+        {% endfor %}
+    </script>
+{% endif %}
+
 <head>
     <link rel="stylesheet" href="static/fileapp/commonvalue.css">
     <link rel="stylesheet" href="static/fileapp/receive.css">

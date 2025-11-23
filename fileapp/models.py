@@ -17,3 +17,5 @@ class FileUpload(models.Model):
                                   on_delete=models.CASCADE,
                                   db_column="upload_id")
     file = models.FileField(upload_to='')
+    download_count = models.IntegerField(default=0)
+    
