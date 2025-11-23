@@ -21,10 +21,13 @@ def send(request):
     if request.method == "POST":
         code = genCode()
         file = request.FILES["file"]
-        temp = request.POST['temporary']
-        if temp == "on":
-            temp = bool(True)
-        else:
+        try:
+            temp = request.POST['temporary']
+            if temp == "on":
+                temp = bool(True)
+            else:
+                temp = bool(False)
+        except:
             temp = bool(False)
 
         upload = models.Upload(code=code,temporary=temp)
