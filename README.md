@@ -1,6 +1,8 @@
 # file-gq
 파일 공유와 전송을 보다 간단하게
 
+# Original by 잠신고 공학 동아리 RoDeLa
+
 ## 사용법
 1. 왼쪽 파일 목록에서 파일을 선택하고, 코드를 작성한다.
 2. 위쪽의 Run 버튼을 눌러 서버를 실행하고, 아래 주소로 들어간다. https://file-gq-1.rodela6.repl.co/ (replit의 webview로 보는 것보다 다른 탭에서 링크로 들어가서 보는걸 추천)
