@@ -1,8 +1,8 @@
 # 서버 설정 가이드
 
-Ubuntu 20.04, Gunicorn, Nginx
+Ubuntu, Gunicorn, Nginx
 
-### 가상머신 설정
+### 서버 설정
 
 1. 업데이트
 ```shell
@@ -12,31 +12,32 @@ sudo apt upgrade
 
 2. git clone
 ```shell
-git clone https://github.com/jsrodela/file-gq.git
+git clone https://github.com/grabic1060/file-gq.git
 cd file-gq
 ```
 
 3. 필요 프로그램 설치
 ```shell
-# 파이썬 3.10 설치
-sudo apt install python3.10.12
-alias python=python3.10.12
+# 파이썬 설치
+sudo apt install python3
 
 # 가상환경 생성
-sudo apt install python3.10.12-venv
+sudo apt install python3-venv
 python -m venv .venv
 . .venv/bin/activate
 
 # 의존 모듈 설치
-pip install django
+pip install -r requirements.txt
 
 # 비밀키 설정
-```shell
 nano settings.json
 
 # 아래 내용 입력
 {
-    "SECRET_KEY": "무작위 키" # 실제 서버 운영 시 유출 금지!!
+    "SECRET_KEY": "비밀키", # production 시 유출 금지
+    "DEBUG" : true, # production 시 false
+    "ALLOWED_HOSTS": ["<도메인>"],
+    "CSRF_TRUSTED_ORIGINS": ["https://<도메인>"]
 }
 
 # 컨트롤+V 후 엔터 누르고 나오기
@@ -44,7 +45,6 @@ nano settings.json
 
 4. 장고 설정
 ```shell
-python manage.py makemigrations
 python manage.py migrate
 ```
 
@@ -70,11 +70,11 @@ gunicorn --bind 0:8000 main.wsgi:application
 
 
 ```shell
-# 로그 파일 생성 (rodela 부분을 사용자 이름으로 바꿔서 실행)
+# 로그 파일 생성
 sudo touch /var/log/gunicorn.access.log
-sudo chown rodela:rodela /var/log/gunicorn.access.log
+sudo chown <사용자이름>:<사용자이름> /var/log/gunicorn.access.log
 sudo touch /var/log/gunicorn.error.log
-sudo chown rodela:rodela /var/log/gunicorn.error.log
+sudo chown <사용자이름>:<사용자이름> /var/log/gunicorn.error.log
 
 # 호스트 등록
 sudo nano /etc/systemd/system/gunicorn.service
@@ -86,10 +86,10 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=rodela
-Group=rodela
-WorkingDirectory=/home/rodela/file-gq
-ExecStart=/home/rodela/file-gq/.venv/bin/gunicorn \
+User=<사용자이름>
+Group=<사용자이름>
+WorkingDirectory=/home/<사용자이름>/file-gq
+ExecStart=/home/<사용자이름>/file-gq/.venv/bin/gunicorn \
     --access-logfile /var/log/gunicorn.access.log \
     --error-logfile /var/log/gunicorn.error.log \
     --bind unix:/run/gunicorn.sock \
@@ -98,7 +98,6 @@ ExecStart=/home/rodela/file-gq/.venv/bin/gunicorn \
 [Install]
 WantedBy=multi-user.target
 
-# 여기까지, 모든 rodela 부분을 사용자 이름으로 바꿔준다.
 # 입력 끝났으면 Ctrl+X -> Y -> 엔터 로 나온다.
 
 sudo nano /etc/systemd/system/gunicorn.socket
@@ -133,7 +132,7 @@ sudo -u www-data curl --unix-socket /run/gunicorn.sock http
 sudo apt install nginx
 nginx -v
 ```
-서버에 접속해서 nginx가 설치되었는지 확인해보자. (포트 입력은 안해도 됨, Azure에서는 80번하고 443번 포트 열어놓기)
+서버에 접속해서 nginx가 설치되었는지 확인해보자. (포트 입력은 안해도 됨, 80번하고 443번 포트 열어놓기)
 
 2. nginx 설정
 ```shell
@@ -143,16 +142,16 @@ sudo nano /etc/nginx/sites-available/main.conf
 ```
 server {
   listen 80;
-  server_name jamsin-file.kro.kr;
+  server_name <도메인>;
   charset utf-8;
   client_max_body_size 1G;
 
   location /media {
-    alias /home/rodela/file-gq/media;
+    alias /home/<사용자이름>/file-gq/media;
   }
 
   location /static {
-    alias /home/rodela/file-gq/static;
+    alias /home/<사용자이름>/file-gq/static;
   }
 
   location /robots.txt {
@@ -164,11 +163,6 @@ server {
     proxy_pass http://unix:/run/gunicorn.sock;
     proxy_buffering off;
   }
-}
-
-server {
-  server_name jamsin.kro.kr;
-  return 301 https://jamsin-file.kro.kr$request_uri;
 }
 ```
 

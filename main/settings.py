@@ -35,16 +35,14 @@ def get_secret(setting, secrets=settings):
 SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = settings["DEBUG"]
 
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 else:
-    ALLOWED_HOSTS = ['file-gq-1.rodela6.repl.co', 'jamsin-file.kro.kr', 
-                 'jamsin.kro.kr', 'file.jamsin.kr']
+    ALLOWED_HOSTS = settings["ALLOWED_HOSTS"]
 X_FRAME_OPTIONS = '*'
-CSRF_TRUSTED_ORIGINS = ['https://file-gq-1.rodela6.repl.co', 'https://jamsin-file.kro.kr', 
-                        'https://jamsin.kro.kr', 'https://file.jamsin.kr']
+CSRF_TRUSTED_ORIGINS = settings["CSRF_TRUSTED_ORIGINS"]
 
 # Application definition
 
