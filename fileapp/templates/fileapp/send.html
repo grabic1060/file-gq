@@ -2,56 +2,142 @@
 <html lang="ko">
 
 <head>
-    <link rel="stylesheet" href="static/fileapp/commonvalue.css">
-    <link rel="stylesheet" href="static/fileapp/send.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yoonsrv 파일 공유 서비스">
+    <title>파일 보내기</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&family=Noto+Sans:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800&family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="static/fileapp/commonvalue.css">
+    
     <script src="static/fileapp/common.js"></script>
 
     <style>
+        /* --- 여기에 위에서 작성한 [전용 스타일]을 붙여넣으세요 --- */
+
+        body.dark-mode .form-card {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-color: #333;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .form-header h2 a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+        
+        .form-header p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        #sendoutput {
+            width: 100%;
+            padding: 30px 20px; /* 터치 영역 넉넉하게 */
+            background-color: var(--bg-color);
+            border: 2px dashed var(--text-secondary);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #sendoutput:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .send_to_cloud {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--accent-color);
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .send_to_cloud:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .send_to_cloud:active {
+            transform: scale(0.98);
+        }
+
+        .custom-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
     </style>
-
-    <meta charset="utf-8">
-    <meta name="description" content="Yoonsrv 파일 공유 서비스">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>File.gq</title>
 </head>
 
 <body>
-    <header style="padding: 0;">
-        <main>
-            <h1 class="animate"><a id="logo" href="/">File.Yoonsrv.com</a></h1>
-            <div class="animate">
-                <div class="explain">
-                    <p>파일 보내기</p>
-                </div>
+    <button id="themeToggle" class="theme-btn" aria-label="테마 전환">
+        🌙
+    </button>
 
-                <div class="sendmanager">
-                    <form id="form" action="{% url 'send' %}" method="POST" enctype="multipart/form-data">
-                        <div class="file_select_rac"></div>
-                        <input type="file" name="file" id="sendoutput">
-                        {% csrf_token %}
-                        <input type="submit" class="send_to_cloud" value="GO">
+    <div class="container" style="justify-content: center;">
+        
+        <main class="form-card animate">
+            <div class="form-header">
+                <h2><a id="logo">파일 보내기</a></h2>
+                <p>파일을 선택하여 공유하세요</p>
+            </div>
+
+            <div class="sendmanager">
+                <form id="form" action="{% url 'send' %}" method="POST" enctype="multipart/form-data">
+                    
+                    <input type="file" name="file" id="sendoutput">
+                    
+                    {% csrf_token %}
+                    
+                    <input type="submit" class="send_to_cloud" value="GO">
+                    
+                    <div class="custom-checkbox-wrapper">
                         <label for="temporary" class="download-limit">내려받기 1회 제한</label>
                         <input type="checkbox" id="temporary" name="temporary" class="custom-checkbox">
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-            
         </main>
-        <div class="bg">
-            <div class="bg-tri1"></div>
-            <div class="bg-tri2"></div>
-            <div class="bg-rac"></div>
-        </div>
-    </header>
-    <script>
-      document.getElementById("form").action = "{% url 'send' %}?color=" + color;
-    </script>
-</body>
 
+        <footer class="sitemap-footer">
+            <p>&copy; <span id="currentYear"></span> Yoonsrv. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="homebtn" onclick="location.href='/'" aria-label="홈으로 이동">
+    🏠
+    </button>
+    
+</body>
 </html>

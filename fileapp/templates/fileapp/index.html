@@ -1,65 +1,82 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoonsrv 파일 공유</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/fileapp/commonvalue.css">
-    <link rel="stylesheet" href="static/fileapp/index.css">
+    
+    <style>
+        /* --- 홈 전용 스타일 --- */
+        .home-card {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+        .home-header h1 { 
+          font-size: 2rem; font-weight: 800; color: var(--accent-color); margin-bottom: 10px; 
+        }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&family=Noto+Sans:wght@900&display=swap" rel="stylesheet">
+        .home-header p {
+          color: var(--text-secondary); margin-bottom: 40px; 
+        }
+        
+        /* 버튼 배치 */
+        .buttons { display: flex; gap: 20px; width: 100%; }
+        .noblue { flex: 1; text-decoration: none; display: block; }
+
+        /* 큰 버튼 디자인 */
+        .btn-large {
+            height: 120px;
+            border-radius: 20px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-size: 1.2rem; font-weight: 800; color: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+        .btn-send { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .btn-receive { background: linear-gradient(135deg, #10b981, #059669); }
+        
+        .btn-large::before { font-size: 2rem; margin-bottom: 5px; display: block; }
+        .btn-send::before { content: '📤'; }
+        .btn-receive::before { content: '📥'; }
+
+        .noblue:hover .btn-large { transform: translateY(-5px); filter: brightness(1.1); }
+        
+        @media (max-width: 480px) {
+            .buttons { flex-direction: column; }
+            .btn-large { height: 80px; flex-direction: row; gap: 10px; }
+            .btn-large::before { margin-bottom: 0; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <button id="themeToggle" class="theme-btn">🌙</button>
+
+    <div class="container">
+        <main class="home-card animate">
+            <header class="home-header">
+                <h1>파일 공유</h1>
+                <p>쉽고 빠르게 파일을 공유하세요</p>
+            </header>
+            <div class="buttons">
+                <a id="send" class="noblue" href="/send"><div class="btn-large btn-send">보내기</div></a>
+                <a id="receive" class="noblue" href="/receive"><div class="btn-large btn-receive">받기</div></a>
+            </div>
+        </main>
+        <footer class="sitemap-footer">
+            <p>&copy; <span id="currentYear"></span> Yoonsrv. All rights reserved.</p>
+        </footer>
+    </div>
 
     <script src="static/fileapp/common.js"></script>
-
-    <meta charset="utf-8">
-    <meta name="description" content="Yoonsrv 파일 공유 서비스">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0-->
-
-    <!-- 카톡 미리보기 정보 -->
-    <meta property="og:url" content="https://file.yoonsrv.com">
-    <meta property="og:title" content="FILE.YOONSRV.COM">
-    <meta property="og:type" content="website">
-    <!-- <meta property="og:image" content="공유시 보여질 이미지 경로"> -->
-    <meta property="og:description" content="파일 전송을 보다 간단하게">
-
-    <title></title>
-</head>
-
-<body>
-    <header style="padding: 0;">
-      <main>
-        <div class="animate">
-            <h1><a id="logo" href="/">File.Yoonsrv.com</a></h1>
-
-            <div class="explain">
-                <p class="explain1">파일 전송을 보다 간단하게</p>
-                <p class="explain2">Yoonsrv 파일 공유 서비스</p>
-                <p class="explain3">original by 잠신고 공학 동아리 RoDeLa</p>
-            </div>
-
-            <div class="buttons">
-                <a id="send" class="noblue" href="/send">
-                    <div class="Send_button">파일 보내기</div>
-                </a>
-    
-                <a id="receive" class="noblue" href="/receive">
-                    <div class="Receive_button">파일 받기</div>
-                </a>
-            </div>
-        </div>
-        <div class="bg">
-            <div class="bg-tri1"></div>
-            <div class="bg-tri2"></div>
-            <div class="bg-rac"></div>
-        </div>
-      </main>
-      
-    </header>
-  <script>
-    document.getElementById("send").href = "/send?color=" + color;
-    document.getElementById("receive").href = "/receive?color=" + color;
-  </script>
 </body>
-
 </html>

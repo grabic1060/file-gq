@@ -2,43 +2,153 @@
 <html lang="ko">
 
 <head>
-    <link rel="stylesheet" href="static/fileapp/commonvalue.css">
-    <link rel="stylesheet" href="static/fileapp/send_result.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yoonsrv 파일 공유 서비스">
+    <title>전송 완료</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&family=Noto+Sans:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800&family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="static/fileapp/commonvalue.css">
     <script src="static/fileapp/common.js"></script>
 
     <style>
-    </style>
+        /* --- 위에서 작성한 전용 CSS --- */
+        .result-card {
+            background-color: var(--card-bg);
+            padding: 50px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid transparent;
+        }
 
-    <meta charset="utf-8">
-    <meta name="description" content="Yoonsrv 파일 공유 서비스">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        body.dark-mode .result-card {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-color: #333;
+        }
+
+        .result-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .result-header h2 a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+
+        .result-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .qr-container {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 16px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        /* 다크모드여도 QR은 흰 배경 유지 (인식률 때문) */
+        
+        #share_qr {
+            width: 200px;
+            height: 200px;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .code-box {
+            background-color: var(--bg-color);
+            border: 2px dashed var(--accent-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+        }
+
+        .code-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        #share_code {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 30px;
+            background-color: var(--text-primary); /* 다크모드 시 흰색 */
+            color: var(--bg-color); /* 글자는 배경색(반대색) */
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-home:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
 </head>
 
 <body>
-    <header style="padding: 0;">
-        <main>
-            <a id="logo" href="/">File.Yoonsrv.com</a></h1>
-            <div class="explain">
-                <p>파일 보내기</p>
+    <button id="themeToggle" class="theme-btn" aria-label="테마 전환">
+        🌙
+    </button>
+
+    <div class="container" style="justify-content: center;">
+        
+        <main class="result-card animate">
+            <div class="result-header">
+                <h2><a id="logo">파일 보내기</a></h2>
+                <p>파일 전송이 완료되었습니다</p>
             </div>
 
             <div class="send_result_rec">
-                <img id="share_qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://file.yoonsrv.com/receive?code={{code}}">
-                <b><p id="share_code">공유코드 : {{code}}</p></b>
+                <div class="qr-container">
+                    <img id="share_qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://file.yoonsrv.com/receive?code={{code}}" alt="공유 QR코드">
+                </div>
+                
+                <div class="code-box">
+                    <span class="code-label">공유 코드</span>
+                    <p id="share_code">{{code}}</p>
+                </div>
+
+                <a href="/" class="btn-home">처음으로</a>
             </div>
-            
         </main>
-        <div class="bg">
-            <div class="bg-tri1"></div>
-            <div class="bg-tri2"></div>
-            <div class="bg-rac"></div>
-        </div>
-    </header>
+
+        <footer class="sitemap-footer">
+            <p>&copy; <span id="currentYear"></span> Yoonsrv. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="homebtn" onclick="location.href='/'" aria-label="홈으로 이동">
+    🏠
+    </button>
+
 </body>
 
 </html>

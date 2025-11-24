@@ -1,220 +1,361 @@
-/* 변수 */
-html {
-    --Eng-fonts: Noto Sans;
-    --Kor-fonts: Noto Sans KR;
-    --logo-fonts: 'Giants-Inline';
-    --explain-fonts: 'KCC-eunyoung';
-
-    --color1: var(--black-color1); /* 배경 밑 제목 */
-    --color2: var(--black-color2); /* 버튼, 버튼 활성화 */
-    --color2-act: var(--black-color2-act);
-    --color3: var(--black-color3);
-    --color4: var(--black-color4); /* 박스 배경 */
-
-    --black-color1: rgb(255,255,255);
-    --black-color2: #474747;
-    --black-color2-act: #282828;
-    --black-color3: #747474;
-    --black-color4: #aaaaaa;
-
-    --red-color1: white;
-    --red-color2: #d76b74;
-    --red-color2-act: #ad4951;
-    --red-color3: #f2b1c0;
-    --red-color4: #ff91ab;
-
-    --skyblue-color1: white;
-    --skyblue-color2: #6bc9d7;
-    --skyblue-color2-act: #5199a3;
-    --skyblue-color3: #c6e3ee;
-    --skyblue-color4: #d4e7ff;
-
-    --yellow-color1: black;
-    --yellow-color2: #f7e88a;
-    --yellow-color2-act: #edd663;
-    --yellow-color3: #f6f2a0;
-    --yellow-color4: transparent;
-
-    --green-color1: white;
-    --green-color2: #6adea4;
-    --green-color2-act: #56b858;
-    --green-color3: #9df5c9;
-    --green-color4: #c1e8d5;
-
-    --purple-color1: white;
-    --purple-color2: #ca7cfe;
-    --purple-color2-act: #af23fb;
-    --purple-color3: #d453ee;
-    --purple-color4: #dd80ff;
-
-    --blue-color1: white;
-    --blue-color2: #7b69e0;
-    --blue-color2-act: #604ccf;
-    --blue-color3: #a79aed;
-    --blue-color4: #c9c2f2;
-}
-/*공통 스타일*/
-body {
-    font-family: 'Noto Sans', sans-serif;
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: var(--color1);
+/* --- CSS 변수 설정 (색상 및 폰트) --- */
+:root {
+    --bg-color: #f8f9fa;       /* 전체 배경색 (연한 회색) */
+    --text-primary: #333333;   /* 기본 글자색 (진한 회색) */
+    --text-secondary: #666666; /* 보조 글자색 (중간 회색) */
+    --accent-color: #3b82f6;   /* 포인트 색상 (파란색 계열) */
+    --card-bg: #ffffff;        /* 카드 배경색 (흰색) */
+    --border-radius: 12px;     /* 둥근 모서리 정도 */
+    --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
 }
 
-
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-top: 0px;
-    margin-bottom: 0px;
+/* --- 기본 초기화 및 공통 스타일 --- */
+* {
+    margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+a {
     text-decoration: none;
     color: inherit;
-    text-align: center;
+    transition: all 0.2s ease;
 }
 
-.bg {
-  z-index: -1;
-  position: fixed;
-  top: -25vh;
-  left: 0;
-  height: 100vh;
+ul {
+    list-style: none;
 }
 
-form {
+/* --- 레이아웃 컨테이너 --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 100vh; /* 화면 전체 높이 사용 */
     display: flex;
     flex-direction: column;
 }
 
-input {
-    text-align: center;
-}
-
-/*메인로고*/
-a#logo {
-    /* font-family: var(--Eng-fonts); */
-    font-family: var(--logo-fonts);
-    /* font-size: 94pt; */
-    font-size: 7rem;
-    /* margin-top: 10px;
-    margin-bottom: 30px; */
-    text-decoration: none;
-    color: var(--color1);
-    text-align: center;
-}
-/*보라색 방지*/
-a:hover {
-    text-decoration: none;
-}
-
-a:active {
-    text-decoration: none;
-}
-/*애니메이션 효과*/
-@keyframes slideIn {
-    0% {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-}
-  
-.animate {
-    animation: slideIn 0.5s ease-out;
-}
-
-/*소제목*/
-
-.explain {
-    color: var(--color1);
-    /* font-family: var(--Kor-fonts); */
-    font-weight: bold;
-    font-size: 20pt;
-    margin-top: 0px;
-    margin-bottom: 240px;
-}
-  .explain1 {
-    font-size: 40pt;
-    font-family: var(--explain-fonts);
-  }
-  .explain2 {
-    font-size: 20pt;
-    font-weight: normal;
-    font-family: var(--explain-fonts);
-  }
-
-/*배경요소*/
-.bg-tri1{
-    top: 5vh;
-    position: absolute;
-    border-right: 300vh solid transparent;
-    border-top: 100vh solid var(--color2);
-    z-index: -1;
-}
-
-.bg-tri2{
-    top: 15vh;
-    position: absolute;
-    border-right: 300vh solid transparent;
-    border-top: 100vh solid var(--color3);
-    z-index: -2;
-}
-
-.bg-rac{
+.form-card {
+    background-color: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     width: 100%;
-    height: 100px;
-    top: 0px;
-    background-color: var(--color2);
-    position: absolute;
-    z-index: -1;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid transparent;
 }
 
-@media screen and (max-width: 768px) {
-    /* main {
-      margin-top: -15px;
-    } */
+/* --- 헤더 영역 --- */
+.sitemap-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
 
-    ::-webkit-scrollbar {
-        -webkit-appearance: none;
-    }
-  
-    a#logo {
-      padding-top: 1rem;
-      font-size: 4rem;
-    }
+.sitemap-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
 
-    .bg-tri1, .bg-tri2 {
-        border-right-width: 280vh;
-        border-top-width: 80vh;
-    }
+.sitemap-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
 
-    .explain {
-      font-size: 1.5rem;
-      margin-bottom: 30vh;
-    }
+/* --- 메인 그리드 레이아웃 (반응형 핵심) --- */
+.sitemap-grid {
+    display: grid;
+    /* 화면 너비에 따라 자동으로 열 개수 조절 (최소 280px 너비 유지) */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* 카드 사이 간격 */
+    flex: 1; /* footer를 하단으로 밀어내기 위함 */
+}
 
-    .explain1 {
-      font-size: 2.5rem;
+/* --- 사이트맵 카드 스타일 --- */
+.sitemap-card {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.sitemap-card:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 위로 올라가는 효과 */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: #e5e7eb;
+}
+
+.sitemap-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color); /* 제목 하단 포인트 라인 */
+    display: inline-block;
+}
+
+/* --- 링크 목록 스타일 --- */
+.sitemap-card ul li {
+    margin-bottom: 12px;
+}
+
+.sitemap-card ul li a {
+    color: var(--text-secondary);
+    display: block;
+    padding: 5px 0;
+    font-weight: 500;
+}
+
+.sitemap-card ul li a:hover {
+    color: var(--accent-color); /* 호버 시 포인트 색상으로 변경 */
+    padding-left: 5px; /* 호버 시 살짝 오른쪽으로 이동 */
+}
+
+/* --- 푸터 영역 --- */
+.sitemap-footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--text-primary);
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.home-button:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+
+/* --- JS 애니메이션을 위한 초기 상태 및 클래스 --- */
+/* 처음에 안 보이게 설정 */
+.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* JS가 붙여줄 클래스 (보이게 설정) */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 모바일 최적화 (작은 화면) --- */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 15px;
     }
     
+    .sitemap-header h1 {
+        font-size: 2rem;
+    }
 
+    .sitemap-card {
+        padding: 25px;
+    }
+
+    .buttons {
+        flex-direction: column; /* 화면이 좁으면 세로로 배치 (선택사항) */
+        gap: 12px;
+    }
+    
+    .noblue {
+        width: 100%; /* 버튼이 화면에 꽉 차게 */
+    }
 }
 
-@font-face {
-    font-family: 'Giants-Inline';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Inline.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+.sitemap-card {
+    /* 카드가 겹치지 않게 위치 기준점 설정 */
+    position: relative; 
+    z-index: 1; 
 }
 
-@font-face {
-    font-family: 'KCC-eunyoung';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/KCC-eunyoung-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+.sitemap-card ul li a {
+    /* 링크를 카드보다 더 위로 띄움 (중요) */
+    position: relative;
+    z-index: 10; 
+    cursor: pointer; /* 마우스 올렸을 때 손가락 모양 강제 */
+}
+
+/* --- index.css 맨 아래에 추가 --- */
+
+/* 1. 다크 모드 색상 테마 정의 */
+body.dark-mode {
+    --bg-color: #121212;       /* 아주 어두운 배경 */
+    --text-primary: #e0e0e0;   /* 밝은 회색 글자 */
+    --text-secondary: #a0a0a0; /* 중간 회색 글자 */
+    --card-bg: #1e1e1e;        /* 카드 배경 (배경보다 살짝 밝게) */
+    --accent-color: #60a5fa;   /* 포인트 색상 (조금 더 밝은 파랑) */
+    /* 그림자를 다크모드에 맞게 은은하게 조정 */
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* 기존 sitemap-card에 그림자 변수 적용을 위해 살짝 수정 필요하지만, 
+   그냥 아래 코드를 추가하면 덮어씌워집니다. */
+body.dark-mode .sitemap-card {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333; /* 카드 테두리를 살짝 줘서 구분감 줌 */
+}
+
+/* 2. 토글 버튼 스타일 (우측 상단 고정) */
+.theme-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* 가장 위에 둥둥 떠있게 */
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.theme-btn:hover {
+    transform: scale(1.1) rotate(15deg); /* 마우스 올리면 살짝 커지고 회전 */
+    border-color: var(--accent-color);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px; /* 버튼 사이의 간격 */
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* 너무 넓어지지 않도록 제한 */
+    margin: 0 auto; /* 화면 가운데 위치 */
+    text-align: center;
+}
+
+/* 링크 태그 스타일 초기화 및 레이아웃 설정 */
+.noblue {
+    text-decoration: none; /* 밑줄 제거 */
+    flex: 1; /* 부모 컨테이너 안에서 동일한 너비를 가짐 */
+    display: block; /* 블록 요소로 만들어 클릭 영역 확보 */
+}
+
+/* 공통 버튼 스타일: 심플하고 둥근 모서리 */
+.Send_button,
+.Receive_button {
+    /* 텍스트 정가운데 정렬 (수직/수평) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: 56px; /* 고정 높이로 터치 영역 확보 */
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--btn-text); /* 변수 사용 */
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, filter 0.2s ease;
+    cursor: pointer;
+}
+
+/* 보내기 버튼 색상 (예: 신뢰감을 주는 블루) */
+.Send_button {
+    background-color: #3b82f6;
+}
+
+/* 받기 버튼 색상 (예: 안정감을 주는 그린 또는 틸) */
+.Receive_button {
+    background-color: #10b981;
+}
+
+/* --- 인터랙션 효과 (마우스 오버 / 터치 시) --- */
+
+/* 마우스를 올렸을 때 살짝 떠오르는 효과 */
+.buttons a:hover div {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.05); /* 색상을 살짝 밝게 */
+}
+
+/* 클릭하는 순간 눌리는 효과 */
+.buttons a:active div {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 홈 버튼 디자인 (좌측 상단 고정) --- */
+#homebtn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* 항상 최상위에 표시 */
+    
+    background-color: var(--card-bg);   /* 카드 배경색(흰색/어두운색) 사용 */
+    color: var(--text-primary);         /* 텍스트 색상 사용 */
+    border: 1px solid var(--text-secondary); /* 옅은 테두리 */
+    
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* 완벽한 원형 */
+    
+    font-size: 24px;    /* 아이콘 크기 */
+    cursor: pointer;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* 입체감 */
+    transition: all 0.3s ease;
+}
+
+/* 호버 효과 */
+#homebtn:hover {
+    transform: scale(1.1); /* 살짝 커짐 */
+    border-color: var(--accent-color); /* 포인트 컬러로 테두리 변경 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* 클릭 효과 */
+#homebtn:active {
+    transform: scale(0.95);
+}
+
+/* 모바일 화면에서는 버튼이 컨텐츠를 가리지 않게 조금 작게 조정 (선택 사항) */
+@media (max-width: 480px) {
+    #homebtn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        top: 15px;
+        left: 15px;
+    }
 }

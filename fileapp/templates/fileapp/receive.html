@@ -1,59 +1,194 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-{% if messages %}
-    <script>
-        {% for message in messages %}
-            alert("{{ message.message }}");
-        {% endfor %}
-    </script>
-{% endif %}
-
 <head>
-    <link rel="stylesheet" href="static/fileapp/commonvalue.css">
-    <link rel="stylesheet" href="static/fileapp/receive.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yoonsrv 파일 공유 서비스">
+    <title>파일 받기</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&family=Noto+Sans:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800&family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="static/fileapp/commonvalue.css">
+    
     <script src="static/fileapp/common.js"></script>
 
-    <meta charset="utf-8">
-    <meta name="description" content="Yoonsrv 파일 공유 서비스">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* --- 위에 작성한 CSS 붙여넣기 --- */
+        
+        .receive-card {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid transparent;
+        }
 
-    <title></title>
+        body.dark-mode .receive-card {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-color: #333;
+        }
+
+        .receive-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .receive-header h2 a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+
+        .receive-header p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        #codenum {
+            width: 100%;
+            padding: 20px;
+            background-color: var(--bg-color);
+            border: 2px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 8px;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode #codenum {
+            border-color: #4b5563;
+        }
+
+        #codenum:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        #codenum::placeholder {
+            font-size: 1rem;
+            letter-spacing: 0;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+
+        /* 스피너 제거 */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .receieve_to_PC {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--accent-color);
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s ease, filter 0.2s ease;
+            -webkit-appearance: none;
+        }
+
+        .receieve_to_PC:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .receieve_to_PC:active {
+            transform: scale(0.98);
+        }
+        
+        /* 테마 버튼 (공통 CSS 활용) */
+        .theme-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--text-secondary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .theme-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+    </style>
 </head>
 
 <body>
-    <header style="padding: 0;">
-        <main>
-            <h1 class="animate"><a id="logo" href="/">File.Yoonsrv.com</a></h1>
-            <div class="animate">
-              <div class="explain">
-                <p>파일 받기</p>
-              </div>
-  
-              <div class="receievemanager">
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    </script>
+    {% endif %}
+
+    <button id="themeToggle" class="theme-btn" aria-label="테마 전환">
+        🌙
+    </button>
+
+    <div class="container" style="justify-content: center;">
+        
+        <main class="receive-card animate">
+            <div class="receive-header">
+                <h2><a id="logo">파일 받기</a></h2>
+                <p>공유 코드를 입력하여 파일을 받으세요</p>
+            </div>
+
+            <div class="receievemanager">
                 <form id="form" action="{% url 'receive' %}" method="POST">
-                  <input type="number" name="code" id="codenum" placeholder="공유코드 입력" min="000000" max="999999">
-                  {% csrf_token %}
-                  <input type="submit" class="receieve_to_PC" value="GO">
+                    <input type="number" name="code" id="codenum" placeholder="공유 코드" min="0" max="999999" required>
+                    
+                    {% csrf_token %}
+                    
+                    <input type="submit" class="receieve_to_PC" value="GO">
                 </form>
-              </div>
             </div>
         </main>
-        <div class="bg">
-            <div class="bg-tri1"></div>
-            <div class="bg-tri2"></div>
-            <div class="bg-rac"></div>
-        </div>
-    </header>
-    <script>
-      // document.getElementById("form").action = "{% url 'receive' %}?color=" + color;
-    </script>
+
+        <footer class="sitemap-footer">
+            <p>&copy; <span id="currentYear"></span> Yoonsrv. All rights reserved.</p>
+        </footer>
+    </div>
+
     <script src="static/fileapp/receive.js"></script>
+
+    <button id="homebtn" onclick="location.href='/'" aria-label="홈으로 이동">
+    🏠
+    </button>
+
 </body>
 
 </html>
